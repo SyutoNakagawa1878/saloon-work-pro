@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Salon Work Pro - メインメニュー</title>
+
+	<link rel="stylesheet" href="/css/scr002/menu.css" th:href="@{/css/scr002/menu.css}">
+</head>
+
+<body>
+
+	<div id="menu-screen" class="screen active">
+
+		<!-- ヘッダー -->
+		<div class="app-header">
+
+			<h1>
+				メインメニュー
+			</h1>
+
+			<button class="btn-back" onclick="logout()">
+
+				ログアウト
+
+			</button>
+
+		</div>
+
+		<!-- ダッシュボード -->
+		<div class="dashboard-box">
+
+			<h2>
+				3時間以内のToDoと予約
+			</h2>
+
+			<div id="dash-contents">
+
+				<!-- JavaScriptで動的生成 -->
+
+				<div class="dash-item">
+					<strong>📅 予約 11:00</strong>
+					：中川柊人様（眉毛WAX）
+				</div>
+
+				<div class="dash-item">
+					<strong>✅ ToDo 12:30</strong>
+					：タオルの補充・洗濯をまわす
+				</div>
+
+			</div>
+
+		</div>
+
+		<!-- メニュー -->
+		<div class="grid-menu">
+
+			<!-- 予約管理 -->
+			<div class="menu-card" onclick="location.href='/scr003'">
+
+				<span class="icon">
+					📅
+				</span>
+
+				<span class="title">
+					予約管理
+				</span>
+
+			</div>
+
+			<!-- 顧客管理 -->
+			<div class="menu-card" onclick="location.href='/scr004'">
+
+				<span class="icon">
+					👥
+				</span>
+
+				<span class="title">
+					顧客管理
+				</span>
+
+			</div>
+
+			<!-- メニュー管理 -->
+			<div class="menu-card" onclick="location.href='/scr005'">
+
+				<span class="icon">
+					📋
+				</span>
+
+				<span class="title">
+					メニュー管理
+				</span>
+
+			</div>
+
+			<!-- ToDo -->
+			<div class="menu-card" onclick="location.href='/scr006'">
+
+				<span class="icon">
+					✅
+				</span>
+
+				<span class="title">
+					ToDo管理
+				</span>
+
+			</div>
+
+			<!-- 勤怠 -->
+			<div class="menu-card attendance-card" onclick="location.href='/scr007'">
+
+				<span class="icon">
+					📅✨
+				</span>
+
+				<span class="title">
+					勤怠表管理
+				</span>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<script src="/js/scr002/menu.js" th:src="@{/js/scr002/menu.js}">
+	</script>
+
+</body>
+
+</html>
