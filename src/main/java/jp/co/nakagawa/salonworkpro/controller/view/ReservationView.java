@@ -30,6 +30,11 @@ public class ReservationView {
 	private String menuName;
 	
 	/**
+	 * 施術時間
+	 */
+	private int durationMinute;
+	
+	/**
 	 * 継続枠か
 	 */
 	private boolean continuation;
@@ -80,5 +85,13 @@ public class ReservationView {
 
 	public void setContinuation(boolean continuation) {
 		this.continuation = continuation;
+	}
+
+	public int getDurationMinute() {
+		return durationMinute;
+	}
+
+	public void setDurationMinute(int durationMinute) {
+		this.durationMinute = durationMinute;
 	}
 }

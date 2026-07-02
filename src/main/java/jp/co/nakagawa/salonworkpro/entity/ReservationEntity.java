@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,9 +25,14 @@ public class ReservationEntity {
 
 	private LocalTime endTime;
 
-	private String customerName;
+	@Column(name = "customer_id")
+	private String customerId;
 
-	private String menuName;
+	@Column(name = "menu_id")
+	private String menuId;
+	
+	@Column(name = "duration_minute")
+	private int durationMinute;
 
 	private String memo;
 
@@ -67,20 +73,28 @@ public class ReservationEntity {
 		this.endTime = endTime;
 	}
 
-	public String getCustomerName() {
-		return customerName;
+	public String getCustomerId() {
+		return customerId;
 	}
 
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
 	}
 
-	public String getMenuName() {
-		return menuName;
+	public String getMenuId() {
+		return menuId;
 	}
 
-	public void setMenuName(String menuName) {
-		this.menuName = menuName;
+	public void setMenuId(String menuId) {
+		this.menuId = menuId;
+	}
+	
+	public int getDurationMinute() {
+		return durationMinute;
+	}
+
+	public void setDurationMinute(int durationMinute) {
+		this.durationMinute = durationMinute;
 	}
 
 	public String getMemo() {

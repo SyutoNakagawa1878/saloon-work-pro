@@ -171,12 +171,28 @@ body {
 */
 
 .timetable {
+	
 
 	width: 100%;
 
 	border-collapse: collapse;
 
 	table-layout: fixed;
+}
+/*
+==================================================
+列幅
+==================================================
+*/
+
+.time-column {
+
+    width: 20%;
+}
+
+.reservation-column {
+
+    width: 80%;
 }
 
 .timetable th {

@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jp.co.nakagawa.salonworkpro.controller.view.ReservationView;
-import jp.co.nakagawa.salonworkpro.entity.ReservationEntity;
 import jp.co.nakagawa.salonworkpro.repository.ReservationRepository;
+import jp.co.nakagawa.salonworkpro.repository.dto.ReservationDto;
 
 @Service
 public class ReservationService {
@@ -18,19 +18,10 @@ public class ReservationService {
 	@Autowired
 	private ReservationRepository repository;
 
-	public List<ReservationEntity> getReservationList(
-			LocalDate date) {
-
-		return repository
-				.findByReservationDate(
-						date);
-
-	}
-
 	public List<ReservationView> createTimeTable(LocalDate targetDate) {
 
-		List<ReservationEntity> reservationList = repository
-				.findByReservationDate(
+		List<ReservationDto> reservationList = repository
+				.findReservation(
 						targetDate);
 
 		List<ReservationView> reservationTable = new ArrayList<>();
@@ -56,7 +47,7 @@ public class ReservationService {
 			current = current.plusMinutes(30);
 		}
 
-		for (ReservationEntity reservation : reservationList) {
+		for (ReservationDto reservation : reservationList) {
 
 			for (ReservationView row : reservationTable) {
 
@@ -82,6 +73,8 @@ public class ReservationService {
 
 						row.setMenuName(
 								reservation.getMenuName());
+						
+						row.setDurationMinute(reservation.getDurationMinute());
 
 						row.setContinuation(false);
 

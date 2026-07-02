@@ -67,17 +67,14 @@
 			<table class="timetable">
 
 				<thead>
-
 					<tr>
-
-						<th>
+						<th class="time-column">
 							時間
 						</th>
 
-						<th>
+						<th class="reservation-column">
 							予約状況
 						</th>
-
 					</tr>
 
 				</thead>
@@ -119,10 +116,17 @@
 							<div th:if="${!row.continuation}">
 
 								<div th:text="${row.customerName}
-						                     + '様'">
+						                     + ' 様'">
 								</div>
 
-								<div th:text="${row.menuName}">
+								<div>
+
+									<span th:text="${row.menuName}">
+									</span>
+
+									<span class="duration" th:text="'【' + ${row.durationMinute} + '分】'">
+									</span>
+
 								</div>
 
 							</div>
