@@ -2,7 +2,7 @@ package jp.co.nakagawa.salonworkpro.controller.view;
 
 import java.time.LocalTime;
 
-public class ReservationView {
+public class SCR003V1 {
 
 	/**
 	 * 時間

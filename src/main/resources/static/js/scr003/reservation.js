@@ -139,15 +139,14 @@ function openCreateModal(
 
     document
         .getElementById(
-            'createTime'
+            'startTime'
         )
         .value =
         targetTime;
 
     document
         .getElementById(
-            'createModal'
-        )
+            'reservationModal')
         .classList
         .add(
             'show'
@@ -158,17 +157,15 @@ function openCreateModal(
 /**
  * 新規予約モーダル閉じる
  */
-function closeCreateModal() {
+
+function closeReservationModal() {
 
     document
         .getElementById(
-            'createModal'
-        )
+            'reservationModal')
         .classList
         .remove(
-            'show'
-        );
-
+            'show');
 }
 
 /**
@@ -197,11 +194,7 @@ function saveReservation() {
         '予約登録'
     );
 
-    // TODO
-    // POST
-    // /scr003/create
-
-    closeCreateModal();
+    closeReservationModal();
 
 }
 
@@ -215,52 +208,50 @@ function saveReservation() {
  * 編集モーダル表示
  */
 function openEditModal(
-    reservationId
-) {
+    element) {
 
-    console.log(
-        '予約編集',
-        reservationId
-    );
+    const reservationId =
+        element.dataset.id;
+
+    const customer =
+        element.dataset.customer;
+
+    const menu =
+        element.dataset.menu;
+
+    const time =
+        element.dataset.time;
 
     document
         .getElementById(
-            'reservationId'
-        )
+            'reservationId')
         .value =
         reservationId;
 
-    // 仮データ
     document
         .getElementById(
-            'editCustomer'
-        )
+            'editCustomer')
         .value =
-        '中川柊人';
+        customer;
 
     document
         .getElementById(
-            'editMenu'
-        )
+            'editMenu')
         .value =
-        '眉毛WAX';
+        menu;
 
     document
         .getElementById(
-            'editMemo'
-        )
+            'editStartTime')
         .value =
-        '';
+        time;
 
     document
         .getElementById(
-            'editModal'
-        )
+            'editModal')
         .classList
         .add(
-            'show'
-        );
-
+            'show');
 }
 
 /**
@@ -296,10 +287,6 @@ function updateReservation() {
         id
     );
 
-    // TODO
-    // POST
-    // /scr003/update
-
     closeEditModal();
 
 }
@@ -332,10 +319,6 @@ function deleteReservation() {
         id
     );
 
-    // TODO
-    // POST
-    // /scr003/delete
-
     closeEditModal();
 
 }
@@ -365,7 +348,7 @@ window.onclick =
             === create
         ) {
 
-            closeCreateModal();
+            closeReservationModal();
 
         }
 
@@ -379,3 +362,97 @@ window.onclick =
         }
 
     };
+
+document
+    .addEventListener(
+        "DOMContentLoaded",
+        () => {
+
+            console.log(
+                "登録完了");
+
+            document
+                .getElementById(
+                    "customerSearch")
+                .addEventListener(
+                    "input",
+                    searchCustomer);
+        });
+
+async function searchCustomer() {
+
+    const keyword =
+        document
+            .getElementById(
+                "customerSearch")
+            .value;
+
+    const suggest =
+        document
+            .getElementById(
+                "customerSuggest");
+
+    if (!keyword) {
+
+        suggest.style.display =
+            "none";
+
+        return;
+    }
+
+    const response =
+        await fetch(
+            "/scr003/customer/search?keyword="
+            + encodeURIComponent(
+                keyword));
+
+    const customers =
+        await response.json();
+
+    suggest.innerHTML =
+        "";
+
+    customers.forEach(
+        customer => {
+
+            const div =
+                document
+                    .createElement(
+                        "div");
+
+            div.className =
+                "suggest-item";
+
+            div.textContent =
+                customer.customerName;
+
+            div.onclick =
+                function() {
+
+                    document
+                        .getElementById(
+                            "customerSearch")
+                        .value =
+                        customer.customerName;
+
+                    document
+                        .getElementById(
+                            "customerId")
+                        .value =
+                        customer.customerId;
+
+                    suggest.style.display =
+                        "none";
+                };
+
+            suggest
+                .appendChild(
+                    div);
+        });
+
+    suggest.style.display =
+        customers.length > 0
+            ? "block"
+            : "none";
+}
+

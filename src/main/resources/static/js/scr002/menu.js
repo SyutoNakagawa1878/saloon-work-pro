@@ -48,14 +48,6 @@ function loadDashboard() {
 
     console.log('ダッシュボード取得開始');
 
-    // TODO:
-    // SCR002MainMenuController
-    // ↓
-    // SCR002MainMenuService
-    // ↓
-    // ReservationRepository
-    // TodoRepository
-
     const dashboard = [
         {
             type: '予約',
