@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 /**
  * 予約テーブル（t_reservation）の1件分のデータを表すクラス。
@@ -48,7 +49,7 @@ public class SCR003E1 {
 	private String menuId;
 
 	/** 施術時間（分） */
-	@Column(name = "duration_minute")
+	@Transient
 	private int durationMinute;
 
 	/** スタッフが記録するメモ・連絡事項 */

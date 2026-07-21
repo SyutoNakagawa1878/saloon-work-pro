@@ -19,6 +19,10 @@ public class SCR003V1 {
 	 */
 	private Long reservationId;
 
+	private LocalTime reservationStartTime;
+
+	private LocalTime reservationEndTime;
+
 	/**
 	 * 顧客名
 	 */
@@ -61,6 +65,22 @@ public class SCR003V1 {
 
 	public void setReservationId(Long reservationId) {
 		this.reservationId = reservationId;
+	}
+
+	public LocalTime getReservationStartTime() {
+		return reservationStartTime;
+	}
+
+	public void setReservationStartTime(LocalTime reservationStartTime) {
+		this.reservationStartTime = reservationStartTime;
+	}
+
+	public LocalTime getReservationEndTime() {
+		return reservationEndTime;
+	}
+
+	public void setReservationEndTime(LocalTime reservationEndTime) {
+		this.reservationEndTime = reservationEndTime;
 	}
 
 	public String getCustomerName() {

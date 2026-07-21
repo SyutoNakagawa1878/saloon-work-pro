@@ -1,6 +1,7 @@
 package jp.co.nakagawa.salonworkpro.repository;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import jp.co.nakagawa.salonworkpro.entity.SCR003E1;
 import jp.co.nakagawa.salonworkpro.repository.dto.SCR003D1;
+import jp.co.nakagawa.salonworkpro.repository.dto.SCR003D2;
 
 /**
  * 予約情報をデータベースから取得・登録・更新するRepository。
@@ -19,41 +21,72 @@ public interface SCR003R1
 		// ReservationEntityを操作し、主キーの型はLongであることを指定する。
 		extends JpaRepository<SCR003E1, Long> {
 
-	/**
-	 * 指定日の予約一覧を取得する。
-	 *
-	 * 予約テーブルに加えて、顧客マスタ・メニューマスタも結合し、
-	 * 画面表示に必要な「顧客名」「メニュー名」「施術時間」も取得する。
-	 *
-	 * @param reservationDate 検索したい予約日
-	 * @return 指定日の予約情報一覧
-	 *
-	 * nativeQuery = true は、JPQLではなく通常のSQLを実行する設定です。
-	 */
+	// ================================
+	// 予約情報検索
+	// ================================
 	@Query(value = """
 			SELECT
-			    r.reservation_id,  -- 予約ID
-			    r.start_time,      -- 開始時刻
-			    r.end_time,        -- 終了時刻
-			    c.customer_name,   -- 顧客名
-			    m.menu_name,       -- メニュー名
-			    m.duration_minute, -- 施術時間（分）
-			    r.memo             -- メモ
+			    r.reservation_id,
+			    r.start_time,
+			    r.end_time,
+			    c.customer_name,
+			    m.menu_name,
+			    m.duration_minute,
+			    r.memo
 			FROM
-			    t_reservation r    -- 予約テーブル。rは短縮名（別名）。
+			    t_reservation r
 			INNER JOIN
-			    m_customer c       -- 顧客マスタ。cは短縮名。
+			    m_customer c
 			ON
 			    r.customer_id = c.customer_id
 			INNER JOIN
-			    m_menu m           -- メニューマスタ。mは短縮名。
+			    m_menu m
 			ON
 			    r.menu_id = m.menu_id
 			WHERE
 			    r.reservation_date = :reservationDate
-			    -- :reservationDate は、メソッド引数の値に置き換わる。
 			""", nativeQuery = true)
 	List<SCR003D1> findReservation(
 			// @Paramで、SQL内の :reservationDate と引数を対応付ける。
 			@Param("reservationDate") LocalDate reservationDate);
+
+	
+	// ================================
+	// メニュー情報一覧取得
+	// ================================
+	@Query(value = """
+			SELECT
+				menu_id AS menuId,
+				menu_name AS menuName,
+				duration_minute AS durationMinute
+			FROM m_menu
+			ORDER BY menu_id
+			""", nativeQuery = true)
+	List<SCR003D2> findMenuList();
+
+	// ================================
+	// 施術時間取得
+	// ================================
+	@Query(value = """
+			SELECT duration_minute
+			FROM m_menu
+			WHERE menu_id = :menuId
+			""", nativeQuery = true)
+	Integer findDurationMinute(
+			@Param("menuId") String menuId);
+	
+	// ================================
+	// 予約の重複有無取得
+	// ================================
+	@Query(value = """
+		    SELECT COUNT(*)
+		    FROM t_reservation
+		    WHERE reservation_date = :reservationDate
+		      AND start_time < :endTime
+		      AND end_time > :startTime
+		    """, nativeQuery = true)
+		Integer countOverlapReservation(
+		        @Param("reservationDate") LocalDate reservationDate,
+		        @Param("startTime") LocalTime startTime,
+		        @Param("endTime") LocalTime endTime);
 }

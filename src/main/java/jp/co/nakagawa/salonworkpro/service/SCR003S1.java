@@ -1,6 +1,7 @@
 package jp.co.nakagawa.salonworkpro.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jp.co.nakagawa.salonworkpro.controller.view.SCR003V1;
+import jp.co.nakagawa.salonworkpro.entity.SCR003E1;
 import jp.co.nakagawa.salonworkpro.repository.SCR003R1;
 import jp.co.nakagawa.salonworkpro.repository.dto.SCR003D1;
+import jp.co.nakagawa.salonworkpro.repository.dto.SCR003D2;
 
 /**
  * 予約管理に関する業務処理を担当するService。
@@ -85,6 +88,8 @@ public class SCR003S1 {
 
 					// どの予約に属する時間枠かを設定する。
 					row.setReservationId(reservation.getReservationId());
+					row.setReservationStartTime(reservation.getStartTime());
+					row.setReservationEndTime(reservation.getEndTime());
 
 					/*
 					 * 予約開始時刻の行か、それ以降の継続時間の行かを判定する。
@@ -115,5 +120,55 @@ public class SCR003S1 {
 
 		// 作成した時間割をControllerへ返す。
 		return reservationTable;
+	}
+
+	public void deleteReservation(Long reservationId) {
+		// 予約を削除する
+		repository.deleteById(reservationId);
+	}
+
+	public List<SCR003D2> findMenuList() {
+		return repository.findMenuList();
+	}
+
+	public void registerReservation(
+			LocalDate reservationDate,
+			LocalTime startTime,
+			String customerId,
+			String menuId) {
+
+		// 施術時間を取得する
+		Integer durationMinute = repository.findDurationMinute(menuId);
+
+		// 予約時間が重複している際はエラーとする
+		LocalTime endTime = startTime.plusMinutes(durationMinute);
+		Integer overlapCount = repository.countOverlapReservation(
+				reservationDate,
+				startTime,
+				endTime);
+
+		if (overlapCount > 0) {
+			throw new IllegalArgumentException("入力された時間帯(" + startTime + "～" + endTime + ")" + "は、別の予約時間と重複しています。");
+		}
+
+		// 現在時刻を取得
+		LocalDateTime now = LocalDateTime.now();
+		SCR003E1 reservation = new SCR003E1();
+		// 予約日時
+		reservation.setReservationDate(reservationDate);
+		// 施術開始時刻
+		reservation.setStartTime(startTime);
+		// 施術終了時刻
+		reservation.setEndTime(endTime);
+		// 顧客ID
+		reservation.setCustomerId(customerId);
+		// メニューID
+		reservation.setMenuId(menuId);
+		// 登録日時
+		reservation.setCreatedAt(now);
+		// 更新日時
+		reservation.setUpdatedAt(now);
+
+		repository.save(reservation);
 	}
 }

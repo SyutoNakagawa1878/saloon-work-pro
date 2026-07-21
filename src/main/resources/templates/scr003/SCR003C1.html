@@ -3,269 +3,123 @@
 
 <head>
 	<meta charset="UTF-8">
-
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<title>
-		Salon Work Pro - 予約管理
-	</title>
-
+	<meta name="_csrf" th:if="${_csrf != null}" th:content="${_csrf.token}">
+	<meta name="_csrf_header" th:if="${_csrf != null}" th:content="${_csrf.headerName}">
+	<title>Salon Work Pro - 予約管理</title>
 	<link rel="stylesheet" th:href="@{/css/scr003/reservation.css}">
-</head>	
+</head>
 
 <body>
-
+	<!-- メイン画面 -->
 	<div class="screen">
-
-		<!-- ヘッダー -->
-
 		<header class="app-header">
-
-			<button class="btn-menu" onclick="location.href='/scr002'">
-
-				◀ メニュー
-
-			</button>
-
-			<h1>
-
-				予約管理
-
-			</h1>
-
+			<button class="btn-menu" type="button" onclick="location.href='/scr002'">← メニュー</button>
+			<h1>予約管理</h1>
 		</header>
 
-		<!-- 日付切替 -->
-
 		<section class="date-nav">
-
 			<input type="hidden" id="targetDate" th:value="${targetDate}">
-
-			<button class="nav-button" onclick="changeDate(-1)">
-				◀
-			</button>
-
-			<span id="currentDate" th:text="${displayDate}">
-			</span>
-
-			<button class="nav-button" onclick="changeDate(1)">
-				▶
-			</button>
-
+			<button class="nav-button" type="button" onclick="changeDate(-1)">◀</button>
+			<span id="currentDate" th:text="${displayDate}"></span>
+			<button class="nav-button" type="button" onclick="changeDate(1)">▶</button>
 		</section>
-
-		<!-- タイムテーブル -->
 
 		<section class="timetable-container">
-
 			<table class="timetable">
-
 				<thead>
 					<tr>
-						<th class="time-column">
-							時間
-						</th>
-
-						<th class="reservation-column">
-							予約状況
-						</th>
+						<th class="time-column">時間</th>
+						<th class="reservation-column">予約状況</th>
 					</tr>
-
 				</thead>
-
 				<tbody>
-
 					<tr th:each="row : ${reservationTable}">
-
-						<!-- 時間 -->
-						<td th:text="${row.time}">
-						</td>
-
-						<!-- 空き枠 -->
-						<td th:if="${row.available}" class="empty" th:attr="data-time=${row.time}" onclick="openCreateModal(
-					                    this.dataset.time)">
-
+						<td th:text="${row.time}"></td>
+						<td th:if="${row.available}" class="empty" th:attr="data-time=${row.time}"
+							onclick="openCreateModal(this.dataset.time)">
 							＋ 空き枠
-
 						</td>
-
-						<!-- 予約あり -->
-						<td th:unless="${row.available}" class="reserved" th:attr="
-						        data-id=${row.reservationId},
-						        data-customer=${row.customerName},
-						        data-menu=${row.menuName},
-						        data-time=${row.time}" onclick="
-						        openEditModal(this)">
-
+						<td th:unless="${row.available}" class="reserved" th:attr="data-id=${row.reservationId},
+                                     data-customer=${row.customerName},
+                                     data-menu=${row.menuName},
+                                     data-start-time=${row.reservationStartTime},
+                                     data-end-time=${row.reservationEndTime}" onclick="openEditModal(this)">
 							<div th:if="${!row.continuation}">
-
-								<div th:text="${row.customerName}
-					                         + ' 様'">
-								</div>
-
+								<div th:text="${row.customerName} + ' 様'"></div>
 								<div>
-
-									<span th:text="${row.menuName}">
-									</span>
-
-									<span class="duration" th:text="'【'
-					                             + ${row.durationMinute}
-					                             + '分】'">
-									</span>
-
+									<span th:text="${row.menuName}"></span>
+									<span class="duration" th:text="'【' + ${row.durationMinute} + '分】'"></span>
 								</div>
-
 							</div>
-
-							<div th:if="${row.continuation}">
-								↓
-							</div>
-
+							<div th:if="${row.continuation}">↓</div>
 						</td>
-
 					</tr>
-
 				</tbody>
-
 			</table>
-
 		</section>
-
 	</div>
 
 	<!-- 新規予約モーダル -->
 	<div id="reservationModal" class="modal">
-
 		<div class="modal-container">
-
 			<div class="modal-header">
-
 				<h3>新規予約登録</h3>
-
-				<button type="button" onclick="closeReservationModal()">
-					×
-				</button>
-
+				<button type="button" class="btn-close" onclick="closeReservationModal()">×</button>
 			</div>
-
 			<div class="form-group">
-
-				<label>
-					開始時間
-				</label>
-
+				<label for="startTime">開始時間</label>
 				<input type="time" id="startTime">
-
 			</div>
-
 			<div class="form-group">
-
-				<label>
-					顧客
-				</label>
-
+				<label for="customerSearch">顧客</label>
 				<input type="text" id="customerSearch" placeholder="顧客名を入力">
-
-
-				<div id="customerSuggest" class="suggest-list">
-				</div>
-
+				<div id="customerSuggest" class="suggest-list"></div>
 				<input type="hidden" id="customerId">
-
 			</div>
-
 			<div class="form-group">
-
-				<label>
-					メニュー
-				</label>
-
+				<label for="menuId">メニュー</label>
 				<select id="menuId">
-
-					<option th:each="menu :
-	                             ${menuList}" th:value="${menu.menuId}" th:text="|${menu.menuName}
-	                              (${menu.durationMinute}分)|">
+					<option value="">メニューを選択してください</option>
+					<option th:each="menu : ${menuList}" th:value="${menu.menuId}"
+						th:text="|${menu.menuName}（${menu.durationMinute}分）|">
 					</option>
-
 				</select>
-
 			</div>
-
-			<button class="btn-primary">
-
-				登録
-
-			</button>
-
+			<div id="reservationError" class="inline-error-msg">
+			</div>
+			<button class="btn-primary" type="button" onclick="saveReservation()">登録</button>
 		</div>
-
 	</div>
 
-	<!-- 編集モーダル -->
+	<!-- 予約内容確認モーダル -->
 	<div id="editModal" class="modal">
-
 		<div class="modal-container">
-
 			<div class="modal-header">
-
-				<h3>予約編集</h3>
-
-				<button type="button" onclick="closeEditModal()">
-					×
-				</button>
-
+				<h3>予約内容の確認</h3>
+				<button type="button" class="btn-close" onclick="closeEditModal()">×</button>
 			</div>
-
 			<input type="hidden" id="reservationId">
-
-			<div class="form-group">
-
-				<label>
-					開始時間
-				</label>
-
-				<input type="time" id="editStartTime">
-
-			</div>
-
-			<div class="form-group">
-
-				<label>
-					顧客
-				</label>
-
-				<input type="text" id="editCustomerSearch">
-
-				<div id="editCustomerSuggest" class="suggest-list">
+			<dl class="reservation-details">
+				<div>
+					<dt>お客様名</dt>
+					<dd id="editCustomer"></dd>
 				</div>
-
-				<input type="hidden" id="editCustomerId">
-
-			</div>
-
-			<div class="form-group">
-
-				<label>
-					メニュー
-				</label>
-
-				<input type="text" id="editMenu">
-
-			</div>
-
-			<button class="btn-primary">
-
-				更新
-
-			</button>
-
+				<div>
+					<dt>メニュー内容</dt>
+					<dd id="editMenu"></dd>
+				</div>
+				<div>
+					<dt>予約時間</dt>
+					<dd id="editTimeRange"></dd>
+				</div>
+			</dl>
+			<button type="button" class="btn-danger" onclick="deleteReservation()">この予約を削除</button>
+			<button type="button" class="btn-secondary" onclick="closeEditModal()">閉じる</button>
 		</div>
-
 	</div>
 
-	<script th:src="@{/js/scr003/reservation.js}">
-	</script>
-
+	<script th:src="@{/js/scr003/reservation.js}"></script>
 </body>
 
 </html>
