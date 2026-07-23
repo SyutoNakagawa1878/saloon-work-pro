@@ -1,265 +1,118 @@
 <!DOCTYPE html>
-
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-
 	<meta charset="UTF-8">
-
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 	<title>顧客管理</title>
-
 	<link rel="stylesheet" th:href="@{/css/scr004/SCR004.css}">
-
-	<script defer th:src="@{/js/scr004/SCR004.js}">
-	</script>
-
+	<script defer th:src="@{/js/scr004/SCR004.js}"></script>
 </head>
 
 <body>
-
 	<div class="screen">
-
-		<!-- ==========================
-         ヘッダー
-    =========================== -->
-
 		<header class="app-header">
-
-			<button class="menu-button" type="button" onclick="location.href='/scr002'">
-
-				← メニュー
-
-			</button>
-
-			<h1>
-
-				顧客管理
-
-			</h1>
-
-			<button class="add-button" type="button" onclick="openCreateModal()">
-
-				＋新規顧客
-
-			</button>
-
+			<button class="menu-button" type="button" onclick="location.href='/scr002'">← メニュー</button>
+			<h1>顧客管理</h1>
+			<button class="add-button" type="button" onclick="openCustomerForm()">＋ 新規追加</button>
 		</header>
 
-		<!-- ==========================
-         検索
-    =========================== -->
-
-	<section class="search-area">
-
-	    <!-- 顧客名 -->
-	    <div class="search-row">
-
-	        <label>顧客名</label>
-
-	        <input
-	            type="text"
-	            id="customerName"
-	            placeholder="漢字・フリガナで検索">
-
-	    </div>
-
-		<div class="search-row">
-
-		    <label>性別</label>
-
-		    <div class="checkbox-group">
-
-		        <label>
-		            <input
-		                type="checkbox"
-		                id="male">
-
-		            男性
-		        </label>
-
-		        <label>
-		            <input
-		                type="checkbox"
-		                id="female">
-
-		            女性
-		        </label>
-
-		        <label>
-		            <input
-		                type="checkbox"
-		                id="other">
-
-		            その他
-		        </label>
-
-		    </div>
-
-		</div>
-
-		<div class="search-row">
-
-		    <label>年齢</label>
-
-		    <div class="age-range">
-
-		        <input
-		            type="number"
-		            id="ageFrom">
-
-		        <span>～</span>
-
-		        <input
-		            type="number"
-		            id="ageTo">
-
-		    </div>
-
-		</div>
-
-		<div class="search-button-area">
-
-		    <button
-		        class="btn-search"
-		        type="button"
-		        onclick="searchCustomer()">
-
-		        検索
-
-		    </button>
-
-		</div>
-
-	</section>
-
-		<!-- ==========================
-         一覧
-    =========================== -->
-
-		<section class="table-area">
-
-			<table class="customer-table">
-
-				<tbody>
-
-					<tr th:each="customer : ${customerList}" th:attr="
-                        data-id=${customer.customerId}" onclick="openEditModal(this)">
-
-						<td th:text="${customer.customerName}">
-						</td>
-
-						<td th:text="${customer.visitCount}">
-						</td>
-
-						<td th:text="${customer.lastVisitDate}">
-						</td>
-
-					</tr>
-
-				</tbody>
-
-			</table>
-
+		<section class="search-area">
+			<div class="search-row">
+				<label for="customerName">顧客名</label>
+				<input type="text" id="customerName" placeholder="名前・フリガナで検索">
+			</div>
+			<div class="search-row">
+				<label>性別</label>
+				<div class="checkbox-group">
+					<label th:each="gender : ${genderList}">
+						<input type="checkbox" name="gender" th:value="${gender.code1}">
+						<span th:text="${gender.codeName}"></span>
+					</label>
+				</div>
+			</div>
+			<div class="search-row">
+				<label>年齢</label>
+				<div class="age-range">
+					<input type="number" id="ageFrom" min="0" placeholder="下限">
+					<span>〜</span>
+					<input type="number" id="ageTo" min="0" placeholder="上限">
+				</div>
+			</div>
+			<div class="search-button-area">
+				<button class="btn-search" type="button" onclick="searchCustomer()">検索</button>
+			</div>
 		</section>
 
+		<section class="table-area">
+			<p id="searchMessage" class="search-message">検索条件を入力して検索してください。</p>
+			<div id="customerList" class="customer-list"></div>
+		</section>
 	</div>
 
-	<!-- ==========================
-     新規登録モーダル
-=========================== -->
-
-	<div id="createModal" class="modal">
-
+	<div id="detailModal" class="modal">
 		<div class="modal-container">
-
 			<div class="modal-header">
-
-				<h3>
-
-					新規顧客登録
-
-				</h3>
-
-				<button type="button" onclick="closeCreateModal()">
-
-					×
-
-				</button>
-
+				<h3>顧客詳細</h3>
+				<div>
+					<button class="btn-edit-link" type="button"
+						onclick="openCustomerForm(currentCustomerDetail)">編集</button>
+					<button type="button" onclick="closeDetailModal()">×</button>
+				</div>
 			</div>
-
-			<div class="form-group">
-
-				<label>
-
-					顧客名
-
-				</label>
-
-				<input type="text" id="createCustomerName">
-
+			<div id="detailProfile" class="info-block"></div>
+			<div class="info-block">
+				<div class="info-block-title">過去の利用履歴</div>
+				<div id="detailReservationHistory"></div>
 			</div>
-
-			<button class="btn-primary">
-
-				登録
-
-			</button>
-
+			<div class="info-block">
+				<div class="info-block-title">趣味・嗜好</div>
+				<div id="detailHobbies"></div>
+			</div>
+			<div class="info-block">
+				<div class="info-block-title">過去の会話履歴</div>
+				<div id="detailTalkHistories"></div>
+			</div>
+			<button class="btn-secondary" type="button" onclick="closeDetailModal()">閉じる</button>
 		</div>
-
 	</div>
 
-	<!-- ==========================
-     編集モーダル
-=========================== -->
-
-	<div id="editModal" class="modal">
-
+	<div id="customerFormModal" class="modal">
 		<div class="modal-container">
-
 			<div class="modal-header">
-
-				<h3>
-
-					顧客編集
-
-				</h3>
-
-				<button type="button" onclick="closeEditModal()">
-
-					×
-
-				</button>
-
+				<h3 id="customerFormTitle">新規顧客追加</h3>
+				<button type="button" onclick="closeCustomerForm()">×</button>
 			</div>
-
-			<input type="hidden" id="customerId">
-
+			<div class="form-group"><label for="formCustomerName">顧客名</label><input id="formCustomerName" type="text">
+			</div>
+			<div class="form-group"><label for="formBirthday">生年月日</label><input id="formBirthday" type="date"></div>
+			<div class="form-group"><label for="formGender">性別</label><select id="formGender">
+					<option th:each="gender : ${genderList}" th:value="${gender.code1}" th:text="${gender.codeName}">
+					</option>
+				</select></div>
+			<div class="form-group"><label for="formJob">職業</label><select id="formJob">
+					<option th:each="job : ${jobList}" th:value="${job.code1}" th:text="${job.codeName}"></option>
+				</select></div>
+			<div class="form-group"><label for="formFeature">特徴</label><textarea id="formFeature" rows="3"></textarea>
+			</div>
 			<div class="form-group">
+				<div class="form-section-header">
+					<label>趣味・嗜好</label>
+					<button type="button" class="btn-mini-add" onclick="addHobbyRow()">
+						＋追加
+					</button>
+				</div>
 
-				<label>
-
-					顧客名
-
-				</label>
-
-				<input type="text" id="editCustomerName">
-
+				<div id="hobbyRows"></div>
 			</div>
-
-			<button class="btn-primary">
-
-				更新
-
-			</button>
-
+			<div class="form-group">
+				<div class="form-section-header"><label>会話履歴</label><button type="button" class="btn-mini-add"
+						onclick="addTalkRow()">＋ 追加</button></div>
+				<div id="talkRows"></div>
+			</div>
+			<button class="btn-primary" type="button" onclick="saveCustomer()">保存</button>
 		</div>
-
 	</div>
-
 </body>
 
 </html>

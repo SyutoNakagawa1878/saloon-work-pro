@@ -18,10 +18,10 @@ import lombok.Setter;
 @Table(name = "m_customer") // このクラスを「m_customer」テーブルに対応付ける
 @Getter // Lombokが各項目のgetter（値を取得するメソッド）を自動生成する
 @Setter // Lombokが各項目のsetter（値を設定するメソッド）を自動生成する
-public class SCR003E2 {
+public class Customer {
 
 	/**
-	 * 顧客ID。
+	 * 顧客ID
 	 *
 	 * @Id は、この項目がテーブル内の各データを一意に識別する
 	 * 主キーであることを示します。
@@ -31,11 +31,18 @@ public class SCR003E2 {
 	private String customerId;
 
 	/**
-	 * 顧客名。
+	 * 顧客名(漢字)
 	 * テーブルの「customer_name」列に対応する。
 	 */
 	@Column(name = "customer_name")
 	private String customerName;
+	
+	/**
+	 * 顧客名(カナ)
+	 * テーブルの「customer_name」列に対応する。
+	 */
+	@Column(name = "customer_name_kana")
+	private String customerNameKana;
 
 	/**
 	 * 削除フラグ。

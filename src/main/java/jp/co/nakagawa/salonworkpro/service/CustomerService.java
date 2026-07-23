@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jp.co.nakagawa.salonworkpro.entity.SCR003E2;
+import jp.co.nakagawa.salonworkpro.entity.Customer;
 import jp.co.nakagawa.salonworkpro.repository.SCR003R2;
 
 /**
@@ -33,7 +33,7 @@ public class CustomerService {
 	 * @param keyword 顧客名を部分一致検索するための文字列
 	 * @return 条件に一致した顧客の一覧
 	 */
-	public List<SCR003E2> search(
+	public List<Customer> search(
 			String keyword) {
 
 		// 実際のデータベース検索はRepositoryに依頼する。

@@ -19,7 +19,7 @@ import jakarta.persistence.Transient;
  */
 @Entity
 @Table(name = "t_reservation") // このクラスを「t_reservation」テーブルに対応付ける
-public class SCR003E1 {
+public class Reservation {
 
 	/**
 	 * 予約ID。予約を一意に識別する主キー。

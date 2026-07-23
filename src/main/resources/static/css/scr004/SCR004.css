@@ -32,7 +32,9 @@ body {
 
 	background: #f3f3f3;
 
-	overflow: hidden;
+	overflow-y: auto;
+
+	overflow-x: hidden;
 }
 
 
@@ -60,11 +62,10 @@ body {
 
 .app-header h1 {
 
-	font-size: 28px;
-
-	font-weight: bold;
-
 	margin: 0;
+	font-size: 28px;
+	line-height: 1.2;
+	text-align: center;
 }
 
 .menu-button {
@@ -419,11 +420,15 @@ body {
 
 	max-width: 430px;
 
+	max-height: 90vh;
+
 	background: white;
 
 	border-radius: 24px 24px 0 0;
 
 	padding: 24px;
+
+	overflow-y: auto;
 }
 
 .modal.show .modal-container {
@@ -500,26 +505,52 @@ body {
 
 	display: block;
 
-	margin-bottom: 8px;
+	margin-bottom: 6px;
 
-	font-size: 18px;
+	color: #757575;
+
+	font-size: 13px;
 
 	font-weight: bold;
 }
 
-.form-group input {
+.form-group input,
+.form-group select,
+.form-group textarea{
 
-	width: 100%;
+    width:100%;
 
-	height: 48px;
+    min-height:46px;
 
-	padding: 0 14px;
+    padding:12px 14px;
 
-	border: 1px solid #d9d9d9;
+    border:1px solid #dddddd;
 
-	border-radius: 12px;
+    border-radius:10px;
 
-	font-size: 18px;
+    font-size:15px;
+
+    background:#fff;
+
+    transition:.2s;
+}
+
+.form-group textarea{
+
+    resize:none;
+
+    min-height:90px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+
+    border-color:#ff8c00;
+
+    box-shadow:0 0 0 3px rgba(255,140,0,.15);
+
+    outline:none;
 }
 
 
@@ -555,4 +586,212 @@ body {
 .btn-primary:hover {
 
 	background: #f07f00;
+}
+
+.search-message {
+	margin: 0 0 10px;
+	color: #666;
+	font-size: 14px;
+}
+
+.customer-list {
+	display: grid;
+	gap: 10px;
+}
+
+.customer-item {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 16px 14px;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	background: #ffffff;
+	color: #333333;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: left;
+	cursor: pointer;
+}
+
+.customer-item:hover {
+	background: #fff8ef;
+	border-color: #ff8c00;
+}
+
+.customer-arrow {
+	font-size: 28px;
+	line-height: 16px;
+	color: #ff8c00;
+}
+
+.customer-table td:nth-child(2),
+.customer-table td:nth-child(3) {
+	text-align: center;
+}
+
+.customer-detail-list {
+	margin: 0;
+}
+
+.customer-detail-list div {
+	display: grid;
+	grid-template-columns: 90px 1fr;
+	gap: 12px;
+	padding: 14px 0;
+	border-bottom: 1px solid #ececec;
+}
+
+.customer-detail-list dt {
+	font-weight: bold;
+	color: #666;
+}
+
+.customer-detail-list dd {
+	margin: 0;
+}
+
+.btn-secondary {
+	width: 100%;
+	height: 52px;
+	margin-top: 20px;
+	border: 1px solid #cccccc;
+	border-radius: 12px;
+	background: #ffffff;
+	color: #555;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.info-block {
+	background: #f5f5f5;
+	padding: 12px;
+	border-radius: 6px;
+	margin-bottom: 12px;
+	font-size: 13px;
+	line-height: 1.6;
+}
+
+.info-block-title {
+	margin-bottom: 6px;
+	padding-bottom: 6px;
+	border-bottom: 1px solid rgba(255, 140, 0, .2);
+	color: #e67600;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.history-item {
+	margin-bottom: 10px;
+	padding-left: 8px;
+	border-left: 3px solid #ff8c00;
+}
+
+.history-date {
+	color: #757575;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+.hobby-badge {
+	display: inline-block;
+	margin: 0 5px 5px 0;
+	padding: 3px 8px;
+	border-radius: 12px;
+	background: #e0f2f1;
+	color: #004d40;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.empty-detail {
+	margin: 0;
+	color: #757575;
+}
+
+.form-section-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:10px;
+}
+
+.btn-mini-add{
+
+    background:#fff3e0;
+
+    color:#ff8c00;
+
+    border:1px solid #ff8c00;
+
+    border-radius:8px;
+
+    padding:6px 12px;
+
+    font-size:12px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.dynamic-row{
+
+    display:flex;
+
+    gap:8px;
+
+    align-items:center;
+
+    margin-bottom:8px;
+}
+
+.dynamic-row input{
+
+    flex:1;
+}
+
+.btn-mini-del{
+
+    width:38px;
+
+    height:38px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#ffebee;
+
+    color:#d32f2f;
+
+    font-size:18px;
+
+    cursor:pointer;
+}
+
+.modal-container{
+
+    border-radius:20px 20px 0 0;
+
+    padding:24px;
+
+    max-height:90vh;
+
+    overflow-y:auto;
+}
+
+.modal-header h3{
+
+    color:#ff8c00;
+
+    font-size:24px;
+
+    font-weight:bold;
 }

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jp.co.nakagawa.salonworkpro.controller.view.SCR003V1;
-import jp.co.nakagawa.salonworkpro.entity.SCR003E2;
+import jp.co.nakagawa.salonworkpro.entity.Customer;
 import jp.co.nakagawa.salonworkpro.repository.dto.SCR003D2;
 import jp.co.nakagawa.salonworkpro.service.CustomerService;
 import jp.co.nakagawa.salonworkpro.service.SCR003S1;
@@ -113,7 +113,7 @@ public class SCR003C1 {
 	 */
 	@GetMapping("/customer/search")
 	@ResponseBody
-	public List<SCR003E2> searchCustomer(
+	public List<Customer> searchCustomer(
 			// URLのkeywordパラメータを検索キーワードとして受け取る。
 			String keyword) {
 

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jp.co.nakagawa.salonworkpro.controller.view.SCR003V1;
-import jp.co.nakagawa.salonworkpro.entity.SCR003E1;
+import jp.co.nakagawa.salonworkpro.entity.Reservation;
 import jp.co.nakagawa.salonworkpro.repository.SCR003R1;
 import jp.co.nakagawa.salonworkpro.repository.dto.SCR003D1;
 import jp.co.nakagawa.salonworkpro.repository.dto.SCR003D2;
@@ -153,7 +153,7 @@ public class SCR003S1 {
 
 		// 現在時刻を取得
 		LocalDateTime now = LocalDateTime.now();
-		SCR003E1 reservation = new SCR003E1();
+		Reservation reservation = new Reservation();
 		// 予約日時
 		reservation.setReservationDate(reservationDate);
 		// 施術開始時刻

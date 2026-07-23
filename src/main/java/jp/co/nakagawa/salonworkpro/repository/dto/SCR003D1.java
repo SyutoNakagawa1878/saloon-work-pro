@@ -7,8 +7,6 @@ import java.time.LocalTime;
  *
  * DTO（Data Transfer Object）は、複数のテーブルから取得したデータを
  * 画面やサービスへ渡しやすい形にまとめるためのクラスです。
- *
- * このクラスでは、予約・顧客・メニューの情報を1つにまとめています。
  */
 public class SCR003D1 {
 

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import jp.co.nakagawa.salonworkpro.entity.SCR003E2;
+import jp.co.nakagawa.salonworkpro.entity.Customer;
 
 /**
  * 顧客マスタ（m_customer）を操作するRepository。
@@ -18,7 +18,7 @@ import jp.co.nakagawa.salonworkpro.entity.SCR003E2;
 public interface SCR003R2
 		// JpaRepository<Entityの型, 主キーの型> を継承する。
 		// これにより、基本的な検索・登録・更新などの機能が自動で利用できる。
-		extends JpaRepository<SCR003E2, String> {
+		extends JpaRepository<Customer, String> {
 
 	/**
 	 * 顧客名に指定したキーワードが含まれる、有効な顧客を検索する。
@@ -31,7 +31,7 @@ public interface SCR003R2
 	 */
 	@Query("""
 			SELECT c
-			FROM SCR003E2 c
+			FROM Customer c
 			WHERE c.deleteFlag = '0'
 			AND c.customerName
 			    LIKE CONCAT(
@@ -39,6 +39,6 @@ public interface SCR003R2
 			            :keyword,
 			            '%')
 			""")
-	List<SCR003E2> search(
+	List<Customer> search(
 			String keyword);
 }

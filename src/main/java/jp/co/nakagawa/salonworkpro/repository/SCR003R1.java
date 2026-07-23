@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import jp.co.nakagawa.salonworkpro.entity.SCR003E1;
+import jp.co.nakagawa.salonworkpro.entity.Reservation;
 import jp.co.nakagawa.salonworkpro.repository.dto.SCR003D1;
 import jp.co.nakagawa.salonworkpro.repository.dto.SCR003D2;
 
@@ -19,7 +19,7 @@ import jp.co.nakagawa.salonworkpro.repository.dto.SCR003D2;
 @Repository
 public interface SCR003R1
 		// ReservationEntityを操作し、主キーの型はLongであることを指定する。
-		extends JpaRepository<SCR003E1, Long> {
+		extends JpaRepository<Reservation, Long> {
 
 	// ================================
 	// 予約情報検索
