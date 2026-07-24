@@ -711,6 +711,19 @@ body {
 	color: #757575;
 }
 
+.inline-error-msg {
+	display: none;
+	margin-bottom: 15px;
+	padding: 12px;
+	border: 1px solid #ffcdd2;
+	border-radius: 6px;
+	background: #ffebee;
+	color: #d32f2f;
+	font-size: 13px;
+	font-weight: bold;
+	line-height: 1.4;
+}
+
 .form-section-header{
 
     display:flex;
@@ -794,4 +807,64 @@ body {
     font-size:24px;
 
     font-weight:bold;
+}
+
+.modal-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 24px;
+
+    padding-bottom: 16px;
+
+    border-bottom: 1px solid #ececec;
+}
+
+.modal-header .menu-button,
+.modal-header .add-button {
+
+    position: static;
+
+    transform: none;
+
+    top: auto;
+
+    left: auto;
+
+    right: auto;
+
+    height: 36px;
+
+    padding: 0 12px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #ff8c00;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.modal-header h3 {
+
+    flex: 1;
+
+    text-align: center;
+
+    color: #ff8c00;
+
+    font-size: 24px;
+
+    font-weight: bold;
 }

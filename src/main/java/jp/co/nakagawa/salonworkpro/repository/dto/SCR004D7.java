@@ -6,6 +6,7 @@ import java.util.List;
 public record SCR004D7(
 		SCR004D3 profile,
 		List<SCR004D4> reservations,
+		List<SCR004D9> features,
 		List<SCR004D5> hobbies,
 		List<SCR004D6> talkHistories) {
 }

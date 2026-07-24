@@ -7,14 +7,19 @@ import java.util.List;
 public record SCR004D8(
 		String customerId,
 		String customerName,
+		String customerNameKana,
 		LocalDate birthday,
 		String gender,
 		String job,
-		String feature,
+		String location,
+		List<Feature> features,
 		List<Hobby> hobbies,
 		List<TalkHistory> talkHistories) {
 
 	public record Hobby(String hobby, String hobbyDetail) {
+	}
+
+	public record Feature(String part, String feature) {
 	}
 
 	public record TalkHistory(LocalDate visitDate, String talkContent) {

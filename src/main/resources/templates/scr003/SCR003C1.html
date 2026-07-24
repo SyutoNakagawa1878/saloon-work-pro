@@ -68,17 +68,17 @@
 				<button type="button" class="btn-close" onclick="closeReservationModal()">×</button>
 			</div>
 			<div class="form-group">
-				<label for="startTime">開始時間</label>
+				<label for="startTime"><span style="color:red">*</span>開始時間</label>
 				<input type="time" id="startTime">
 			</div>
 			<div class="form-group">
-				<label for="customerSearch">顧客</label>
+				<label for="customerSearch"><span style="color:red">*</span>顧客</label>
 				<input type="text" id="customerSearch" placeholder="顧客名を入力">
 				<div id="customerSuggest" class="suggest-list"></div>
 				<input type="hidden" id="customerId">
 			</div>
 			<div class="form-group">
-				<label for="menuId">メニュー</label>
+				<label for="menuId"><span style="color:red">*</span>メニュー</label>
 				<select id="menuId">
 					<option value="">メニューを選択してください</option>
 					<option th:each="menu : ${menuList}" th:value="${menu.menuId}"

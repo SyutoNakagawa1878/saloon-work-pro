@@ -31,11 +31,6 @@ async function saveReservation() {
     const startTime = document.getElementById('startTime').value;
     const customerId = document.getElementById('customerId').value;
     const menuId = document.getElementById('menuId').value;
-
-
-
-
-
     const csrfToken = document.querySelector('meta[name="_csrf"]')?.content;
     const csrfHeader = document.querySelector('meta[name="_csrf_header"]')?.content;
     const headers = {

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>メニュー管理</title>
+	<link rel="stylesheet" href="/css/scr005/SCR005.css">
+	<script defer src="/js/scr005/SCR005.js"></script>
+</head>
+<body>
+	<div class="screen">
+		<header class="app-header">
+			<button class="menu-button" type="button" onclick="location.href='/scr002'">◀ メニュー</button>
+			<h1>メニュー管理</h1>
+			<button class="add-button" type="button" onclick="openMenuForm()">＋追加</button>
+		</header>
+		<section class="table-area">
+			<p id="menuMessage" class="search-message">メニューを読み込んでいます。</p>
+			<div id="menuList" class="customer-list"></div>
+		</section>
+	</div>
+
+	<div id="detailModal" class="modal">
+		<div class="modal-container">
+			<div class="modal-header"><button class="menu-button" type="button" onclick="closeDetailModal()">◀ 閉じる</button><h3>メニュー詳細</h3><button class="add-button" type="button" onclick="openMenuForm(currentMenu)">編集</button></div>
+			<div id="menuDetail" class="info-block"></div>
+			<button class="btn-secondary" type="button" onclick="closeDetailModal()">閉じる</button>
+		</div>
+	</div>
+
+	<div id="menuFormModal" class="modal">
+		<div class="modal-container">
+			<div class="modal-header"><button class="menu-button" type="button" onclick="closeMenuForm()">◀ 閉じる</button><h3 id="menuFormTitle">新規メニュー登録</h3></div>
+			<div class="form-group"><label for="formMenuName"><span class="required">*</span>メニュー名</label><input id="formMenuName" type="text"></div>
+			<div class="form-group"><label for="formDuration"><span class="required">*</span>施術目安時間（分）</label><input id="formDuration" type="number" min="1" step="1"></div>
+			<div class="form-group"><label for="formPrice"><span class="required">*</span>料金（円）</label><input id="formPrice" type="number" min="0" step="1"></div>
+			<div id="menuError" class="inline-error-msg"></div>
+			<button class="btn-primary" type="button" onclick="saveMenu()">登録</button>
+		</div>
+	</div>
+</body>
+</html>

@@ -55,12 +55,23 @@ public class SCR004C1 {
 	@PostMapping("/customer")
 	@ResponseBody
 	public String createCustomer(@RequestBody SCR004D8 request) {
+		validateRequired(request);
 		return customerService.createCustomer(request);
 	}
 
 	@PutMapping("/customer/{customerId}")
 	@ResponseBody
 	public void updateCustomer(@PathVariable String customerId, @RequestBody SCR004D8 request) {
+		validateRequired(request);
 		customerService.updateCustomer(customerId, request);
+	}
+
+	private void validateRequired(SCR004D8 request) {
+		if (request.customerName() == null || request.customerName().isBlank()
+				|| request.customerNameKana() == null || request.customerNameKana().isBlank()
+				|| request.birthday() == null || request.gender() == null || request.gender().isBlank()
+				|| request.job() == null || request.job().isBlank()) {
+			throw new IllegalArgumentException("顧客名（漢字・カナ）、生年月日、性別、職業は必須です。");
+		}
 	}
 }

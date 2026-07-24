@@ -1,0 +1,5 @@
+@import url('/css/scr004/SCR004.css');
+
+.screen { min-height: 100vh; height: auto; }
+.table-area { padding-top: 20px; }
+.required { color: #d32f2f; }

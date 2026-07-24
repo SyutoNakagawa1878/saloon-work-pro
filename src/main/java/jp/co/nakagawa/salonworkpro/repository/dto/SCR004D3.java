@@ -6,9 +6,12 @@ import java.time.LocalDate;
 public interface SCR004D3 {
 	String getCustomerId();
 	String getCustomerName();
+	String getCustomerNameKana();
 	String getGender();
+	String getGenderCode();
 	LocalDate getBirthday();
 	Integer getAge();
 	String getJob();
-	String getFeature();
+	String getJobCode();
+	String getLocation();
 }
